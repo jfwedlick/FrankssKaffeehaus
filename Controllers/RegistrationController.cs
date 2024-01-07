@@ -2,6 +2,7 @@
 using FranksKaffeehaus.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Net;
 
 namespace FranksKaffeehaus.Controllers
 {
@@ -47,7 +48,64 @@ namespace FranksKaffeehaus.Controllers
             }
             return RedirectToAction("RegistrationSuccessful", newUser);
         }
-        
+
+        // GET: RegistrationController/Edit/5
+        public ActionResult Update()
+        {
+            return View();
+        }
+
+        // POST: RegistrationController/Edit/5
+        [HttpPost, ActionName("CreateUser")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(RegistrationViewModel user)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    int id = user.Id;
+                    _registrationContext.Users.Find(id);
+                    _registrationContext.Users.Remove(user);
+                    _registrationContext.SaveChanges();
+                }
+                return RedirectToAction("UpdateSuccessful");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Registration/Delete/5
+        public ActionResult DeleteUser()
+        {
+            
+            return View();
+        }
+
+        // POST: Registration/Delete/5
+        [HttpPost, ActionName("DeleteUser")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteUser(RegistrationViewModel user)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    int id = user.Id;
+                    _registrationContext.Users.Find(id);
+                    _registrationContext.Users.Remove(user);
+                    _registrationContext.SaveChanges();
+                }
+                return RedirectToAction("DeleteSuccessful");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
