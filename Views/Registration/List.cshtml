@@ -64,8 +64,8 @@
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
             <td>
-                    @Html.ActionLink("Edit", "Create", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete User", "DeleteUser", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Edit", "Update", new { id=item.Id }) |
+                    @Html.ActionLink("Delete User", "DeleteUser", new { id=item.Id })
             </td>
         </tr>
 }

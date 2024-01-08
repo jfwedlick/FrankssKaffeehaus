@@ -50,13 +50,14 @@ namespace FranksKaffeehaus.Controllers
         }
 
         // GET: RegistrationController/Edit/5
-        public ActionResult Update()
+        public ActionResult Update(int id)
         {
-            return View();
+            var model = _registrationContext.Users.Find(id);
+            return View(model);
         }
 
         // POST: RegistrationController/Edit/5
-        [HttpPost, ActionName("CreateUser")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Update(RegistrationViewModel user)
         {
@@ -64,12 +65,10 @@ namespace FranksKaffeehaus.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    int id = user.Id;
-                    _registrationContext.Users.Find(id);
-                    _registrationContext.Users.Remove(user);
+                    _registrationContext.Users.Update(user);
                     _registrationContext.SaveChanges();
                 }
-                return RedirectToAction("UpdateSuccessful");
+                return View("UpdateSuccessful", user);
             }
             catch
             {
@@ -78,27 +77,23 @@ namespace FranksKaffeehaus.Controllers
         }
 
         // GET: Registration/Delete/5
-        public ActionResult DeleteUser()
+        public ActionResult DeleteUser(int id)
         {
-            
-            return View();
+            var model = _registrationContext.Users.Find(id);
+            return View(model);
         }
 
         // POST: Registration/Delete/5
         [HttpPost, ActionName("DeleteUser")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteUser(RegistrationViewModel user)
+        public ActionResult Delete(int id)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    int id = user.Id;
-                    _registrationContext.Users.Find(id);
-                    _registrationContext.Users.Remove(user);
-                    _registrationContext.SaveChanges();
-                }
-                return RedirectToAction("DeleteSuccessful");
+                var user = _registrationContext.Users.Find(id);
+                _registrationContext.Users.Remove(user);
+                _registrationContext.SaveChanges();
+                return View("DeleteSuccessful", user);
             }
             catch
             {
